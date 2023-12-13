@@ -1,5 +1,16 @@
 #include <stdio.h>
 #include <windows.h>
+#include <stdlib.h>
+typedef struct Node{
+	int id;
+	char name[50];
+	char sex[10];
+	int chinese,math,english;
+	int sum;
+	struct Node *next;
+}node;
+node List;
+int readfile(node *L);
 //主菜单界面
 void welcome( );
 //增加学生信息 
@@ -17,6 +28,8 @@ void goodbye( );
  
 int main( ){
 	int choice=0;
+	readfile(&List);
+	scanf("%d",&choice);
 	while(true){
 	welcome( );
 	scanf("%d",&choice);
@@ -92,4 +105,26 @@ void printStuInfo( )
 void goodbye( )
 {
 	printf("退出程序");
+}
+int readfile(node *L)
+{
+	FILE *fpr=fopen("studentInfo.txt","r");
+	node st;
+	node *s;
+	node *t=L;
+	if(fpr==NULL){
+		return 0;
+	}else{
+		while(fscanf(fpr,"%d %s %s %d %d %d %d",&st.id,st.name,st.sex,&st.chinese,&st.math,&st.english,&st.sum)!=EOF)
+		{
+		printf("%d %s %s %d %d %d %d\n",st.id,st.name,st.sex,st.chinese,st.math,st.english,st.sum);
+		s=(node *)malloc(sizeof(node));
+		*s=st;
+		t->next=s;
+		t=s;
+		t->next=NULL;
+	    }
+	}
+	return 1;
+	
 }
